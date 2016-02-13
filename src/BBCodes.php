@@ -120,7 +120,7 @@ class BBCodes
         //*/ Set up replace array for code tags
         if (preg_match_all(self::PATTERN_CODE, $this->str, $matches)) {
             foreach ($matches[3] as $k => $v) {
-                if (!empty($matches[2][$k])) {
+                if (!empty($matches[2][$k]) && class_exists(GenSynth::class)) {
                     $v = GenSynth::highlight_string($v, strtolower($matches[2][$k]), true, GenSynth::OPT_HEADER_DIV & GenSynth::OPT_LINE_NUMBERS_FANCY & GenSynth::OPT_CAPS_NO_CHANGE);
                     $this->CodeReplace[$k] = '<div class="bbcodes_code_wrapper"><span class="bbcodes_code_language">' . $matches[2][$k] . ' Code:</span>' . "\n"
                                              . '<div class="bbcodes_code">' . $v . '</div></div>';
