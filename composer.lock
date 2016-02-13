@@ -1,0 +1,59 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "2687269f2112543820a80118d26677cc",
+    "content-hash": "ea2859665e478197a8dc44f9f9c2defe",
+    "packages": [
+        {
+            "name": "derokorian/gen-synth",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/derokorian/gen-synth.git",
+                "reference": "47ad4127c5ad8bd68f49ed3f28722536d219d72e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/derokorian/gen-synth/zipball/47ad4127c5ad8bd68f49ed3f28722536d219d72e",
+                "reference": "47ad4127c5ad8bd68f49ed3f28722536d219d72e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dero\\GenSynth\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ryan Pallas",
+                    "email": "derokorian@gmail.com"
+                }
+            ],
+            "description": "A Generic Syntax Highlighter",
+            "time": "2016-02-13 02:38:39"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "derokorian/gen-synth": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.4.0"
+    },
+    "platform-dev": []
+}

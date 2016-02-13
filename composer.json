@@ -1,0 +1,22 @@
+{
+    "name": "derokorian/bbcode",
+    "description": "Simple BBCode parser",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ryan Pallas",
+            "email": "derokorian@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4.0",
+        "derokorian/gen-synth": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dero\\BBCodes\\": "src/"
+        }
+    }
+}
