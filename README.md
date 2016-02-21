@@ -1,4 +1,7 @@
 # bbcodes
+
+[![Build Status](https://travis-ci.org/derokorian/bbcodes.svg?branch=master)](https://travis-ci.org/derokorian/bbcodes)
+
 Simple class to parse BBCodes
 
 ## Install via composer
