@@ -23,8 +23,8 @@ class BBCodes
     const PATTERN_NO_PARSE = '#\[NOPARSE\](.*?)\[\/NOPARSE\]#is';
     const PATTERN_TITLE = '@\s*\[((SUB)?TITLE)\](.*)\[/\1\]\s*@i';
     const PATTERN_BASE = '@\[(B|I|U|PRE|STRIKE)\](.*)\[/\1\]@i';
-    const PATTERN_ITEM = '@\s*\[ITEM\](.*)\[/ITEM\]\s*@i';
-    const PATTERN_LIST = '@\s*\[LIST\](.*)\[/LIST\]\s*@is';
+    const PATTERN_ITEM = '@\s*\[ITEM\](.*?)\[/ITEM\]\s*@i';
+    const PATTERN_LIST = '@\s*\[LIST\](.*?)\[/LIST\]\s*@is';
     const PATTERN_LINK = '#((http|ftp)s?://)?(([a-z][a-z0-9-]*\.)+)?[a-z][a-z0-9-]*\.([a-z]{2,6})(/[^\s]*)?#is';
     const OPT_URLS = 1;
     const OPT_BASE = 2;
@@ -139,7 +139,7 @@ class BBCodes
             return '<ul>' . preg_replace(BBCodes::PATTERN_ITEM, '<li>\\1</li>', $v[1]) . '</ul>';
         }
         else {
-            return $v[0];
+            return $v[1];
         }
     }
 

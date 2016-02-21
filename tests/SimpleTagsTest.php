@@ -9,7 +9,9 @@ class SimpleTagsTest extends PHPUnit_Framework_TestCase
         return [
             ['[b]Test[/b]', '<strong>Test</strong>'],
             ['[i]Test[/i]', '<i>Test</i>'],
-            ['[u]Test[/u]', '<u>Test</u>']
+            ['[u]Test[/u]', '<u>Test</u>'],
+            ['[pre]Test[/pre]', '<pre>Test</pre>'],
+            ['[strike]Test[/strike]', '<strike>Test</strike>']
         ];
     }
 
