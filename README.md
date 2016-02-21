@@ -38,16 +38,24 @@ The following tags are available, depending on the options used. Tags are not ca
     [b]bold[/b]
     [i]italic[/i]
     [u]underline[/u]
+    
     [pre]preformatted text[/pre]
     [strike]struck through text[/strike]
+    
     [title]some title text[/title]
     [subtitle]a smallter title text[/subtitle]
+    
     [url]http://example.com[/url]
     [url=http://example.com]some text[/url]
     [urls]block of text containing many raw urls[/urls]
-    [img=alt/title]http://url.to/image.jpg[/img] alt/title is optional
+    
+    [img]http://url.to/image.jpg[/img] 
+    [img=http://url.to/image.jpg]alt/title[/img] 
+    
     [noparse]text not to be parsed for other BBCodes[/noparse]
-    [quote=author]something attributed to someone else[/quote] the author is optional
+    [quote]something attributed to someone else[/quote] 
+    [quote=author]something attributed to someone else[/quote] 
+    
     [code]some code that needs formatting maintained[/code]
     [php]some php code[/php]
     
