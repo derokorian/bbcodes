@@ -6,7 +6,8 @@ use Dero\GenSynth\GenSynth;
 /**
  * BBCodes class, used for replacing supported BBCodes with the proper HTML. Also turns URLs into hyperlinks
  * Supported tags:
- * [b][u][i][url=<URI>][urls][img=<ALT/TITLE>][noparse][quote=<SPEAKER>][pre][code=<LANGUAGE>][title][subtitle][list][item]
+ * [b][u][i][url=<URI>][urls][img=<ALT/TITLE>][noparse]
+ * [quote=<SPEAKER>][pre][code=<LANGUAGE>][title][subtitle][list][item]
  *
  * @author    Ryan Pallas <ryan.pallas@gmail.com>
  * @copyright Copyright (c) 2011-2015, Ryan Pallas
@@ -93,7 +94,6 @@ class BBCodes
         }
 
         $this->str = nl2br($this->str);
-        $this->str = "<p>" . preg_replace('#<br( /)?>\s*<br( /)?>#', '</p><p>', $this->str);
 
         if (self::OPT_CODE & $opt) {
             $this->parseCode();
