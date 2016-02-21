@@ -37,6 +37,8 @@ The following tags are available, depending on the options used. Tags are not ca
     [u]underline[/u]
     [pre]preformatted text[/pre]
     [strike]struck through text[/strike]
+    [title]some title text[/title]
+    [subtitle]a smallter title text[/subtitle]
     [url]http://example.com[/url]
     [url=http://example.com]some text[/url]
     [urls]block of text containing many raw urls[/urls]

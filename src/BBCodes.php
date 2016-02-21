@@ -9,9 +9,8 @@ use Dero\GenSynth\GenSynth;
  * [b][u][i][url=<URI>][urls][img=<ALT/TITLE>][noparse]
  * [quote=<SPEAKER>][pre][code=<LANGUAGE>][title][subtitle][list][item]
  *
- * @author    Ryan Pallas <ryan.pallas@gmail.com>
+ * @author    Ryan Pallas <ryan@derokorian.com>
  * @copyright Copyright (c) 2011-2015, Ryan Pallas
- * @version   2015.3.5
  */
 class BBCodes
 {
