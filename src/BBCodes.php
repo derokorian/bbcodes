@@ -1,6 +1,7 @@
 <?php
 
 namespace Dero\BBCodes;
+
 use Dero\GenSynth\GenSynth;
 
 /**
@@ -38,8 +39,8 @@ class BBCodes
     const OPT_IMG = 64;
     const OPT_NOPARSE = 128; // 31 = 1|2|4|8|16
     const OPT_FULL = 255;
-    private $CodeReplace = [];
-    private $NoParseReplace = [];
+    private $codeReplacements = [];
+    private $noParseReplacements = [];
     private $str; // 255 = 1|2|4|8|16|32|64|128
 
     /**
@@ -106,104 +107,84 @@ class BBCodes
 
     private function findNoParse()
     {
-        //*/ Set up replace array for NOPARSE tags
         if (preg_match_all(self::PATTERN_NO_PARSE, $this->str, $matches)) {
-            foreach ($matches[1] as $k => $v) {
-                $this->NoParseReplace[$k] = $v;
-            }
+            $this->noParseReplacements = $matches[1];
         }
     }
 
     private function findCode()
     {
-        //*/ Set up replace array for code tags
+        $this->codeReplacements = [];
         if (preg_match_all(self::PATTERN_CODE, $this->str, $matches)) {
             foreach ($matches[3] as $k => $v) {
-                if (!empty($matches[2][$k]) && class_exists(GenSynth::class)) {
-                    $v = GenSynth::highlight_string($v, strtolower($matches[2][$k]), true, GenSynth::OPT_HEADER_DIV & GenSynth::OPT_LINE_NUMBERS_FANCY & GenSynth::OPT_CAPS_NO_CHANGE);
-                    $this->CodeReplace[$k] = '<div class="bbcodes_code_wrapper"><span class="bbcodes_code_language">' . $matches[2][$k] . ' Code:</span>' . "\n"
-                                             . '<div class="bbcodes_code">' . $v . '</div></div>';
-                }
-                else {
-                    $v = "<pre>$v</pre>";
-                    $this->CodeReplace[$k] = '<div class="bbcodes_code_wrapper"><span class="bbcodes_code_language">Code:</span>' . "\n"
-                                             . '<div class="bbcodes_code">' . $v . '</div></div>';
-                }
+                $lang = empty($matches[2][$k]) ? '' : ($matches[2][$k] . ' ');
+                $code = empty($matches[2][$k]) || class_exists(GenSynth::class)
+                    ? "<pre>$v</pre>"
+                    : GenSynth::highlight_string($v, strtolower($matches[2][$k]), true, GenSynth::OPT_HEADER_DIV & GenSynth::OPT_LINE_NUMBERS_FANCY & GenSynth::OPT_CAPS_NO_CHANGE);
+
+                $this->codeReplacements[$k] = '<div class="bbcodes_code_wrapper"><span class="bbcodes_code_language">' . $lang . 'Code:</span>' . "\n"
+                                              . '<div class="bbcodes_code">' . $code . '</div></div>';
             }
         }
     }
 
-    private static function listToHTML($v)
+    private function parseCode()
     {
-        if (preg_match(BBCodes::PATTERN_ITEM, $v[1])) {
-            return '<ul>' . preg_replace(BBCodes::PATTERN_ITEM, '<li>\\1</li>', $v[1]) . '</ul>';
-        }
-        else {
-            return $v[1];
+        if (preg_match_all(self::PATTERN_CODE, $this->str, $matches)) {
+            $this->str = str_replace($matches[0], $this->codeReplacements, $this->str);
         }
     }
 
     private function parseList()
     {
         while (preg_match(self::PATTERN_LIST, $this->str)) {
-            $this->str = preg_replace_callback(self::PATTERN_LIST, [static::class, 'listToHTML'], $this->str);
-        }
-    }
+            $this->str = preg_replace_callback(self::PATTERN_LIST, function ($match) {
+                if (preg_match(BBCodes::PATTERN_ITEM, $match[1])) {
+                    return '<ul>' . preg_replace(BBCodes::PATTERN_ITEM, '<li>\\1</li>', $match[1]) . '</ul>';
+                }
 
-    private static function baseToHTML($v)
-    {
-        $t = strtolower($v[1]);
-        switch ($t) {
-            case 'b':
-                return "<strong>$v[2]</strong>";
-            default:
-                return "<$v[1]>$v[2]</$v[1]>";
+                return $match[1];
+            }, $this->str);
         }
     }
 
     private function parseBase()
     {
         while (preg_match(self::PATTERN_BASE, $this->str)) {
-            $this->str = preg_replace_callback(self::PATTERN_BASE, [static::class, 'baseToHTML'], $this->str);
-        }
-    }
-
-    private static function titleToHTML($v)
-    {
-        $t = strtolower($v[1]);
-        switch ($t) {
-            case 'title':
-                return "<h2>$v[3]</h2>";
-            case 'subtitle':
-                return "<h3>$v[3]</h3>";
-            default:
-                return $v[3];
+            $this->str = preg_replace_callback(self::PATTERN_BASE, function ($match) {
+                return strtolower($match[1]) == 'b'
+                    ? "<strong>$match[2]</strong>"
+                    : "<$match[1]>$match[2]</$match[1]>";
+            }, $this->str);
         }
     }
 
     private function parseTitle()
     {
         while (preg_match(self::PATTERN_TITLE, $this->str)) {
-            $this->str = preg_replace_callback(self::PATTERN_TITLE, [static::class, 'titleToHTML'], $this->str);
+            $this->str = preg_replace_callback(self::PATTERN_TITLE, function ($match) {
+                switch (strtolower($match[1])) {
+                    case 'title':
+                        return "<h2>$match[3]</h2>";
+                    case 'subtitle':
+                        return "<h3>$match[3]</h3>";
+                    default:
+                        return $match[3];
+                }
+            }, $this->str);
         }
     }
 
     private function parseURL()
     {
         if (preg_match_all(self::PATTERN_URL, $this->str, $matches)) {
-            $URLReplace = [];
+            $urlReplacements = [];
             foreach ($matches[0] as $k => $v) {
-                if (empty($matches[2][$k])) {
-                    $display = self::shortenURL($matches[3][$k]);
-                    $url = $matches[3][$k];
-                }
-                else {
-                    $display = $matches[3][$k];
-                    $url = $matches[2][$k];
-                }
-                $URLReplace[$v] = '<a href="' . $url . '" target="_blank">' . $display . '</a>';
+                $display = empty($matches[2][$k]) ? static::shortenURL($matches[3][$k]) : $matches[3][$k];
+                $url = empty($matches[2][$k]) ? $matches[3][$k] : $matches[2][$k];
+                $urlReplacements[$v] = '<a href="' . $url . '" target="_blank">' . $display . '</a>';
             }
-            $this->str = strtr($this->str, $URLReplace);
+            $this->str = strtr($this->str, $urlReplacements);
         }
     }
 
@@ -221,37 +202,25 @@ class BBCodes
     private function parseImage()
     {
         if (preg_match_all(self::PATTERN_IMAGE, $this->str, $matches)) {
-            $IMGReplace = [];
+            $imgReplacements = [];
             foreach ($matches[0] as $k => $v) {
-                if (empty($matches[2][$k])) {
-                    $url = $matches[3][$k];
-                }
-                else {
-                    $url = $matches[2][$k];
-                }
-                $IMGReplace[$v] = '<img src="' . $url . '" alt="' . ($url != $matches[3][$k] ? $matches[3][$k] : '') . '" title="' . ($url != $matches[3][$k] ? $matches[3][$k] : '') . '" />';
+                $url = empty($matches[2][$k]) ? $matches[3][$k] : $matches[2][$k];
+                $imgReplacements[$v] = '<img src="' . $url . '" alt="' . ($url != $matches[3][$k] ? $matches[3][$k] : '') . '" title="' . ($url != $matches[3][$k] ? $matches[3][$k] : '') . '" />';
             }
-            $this->str = strtr($this->str, $IMGReplace);
+            $this->str = strtr($this->str, $imgReplacements);
         }
     }
 
     private function parseQuote()
     {
         if (preg_match_all(self::PATTERN_QUOTE, $this->str, $matches)) {
-            $QUOTEReplace = [];
+            $quoteReplacements = [];
             foreach ($matches[0] as $k => $v) {
-                $QUOTEFind[$k] = $v;
-                if (empty($matches[2][$k])) {
-                    $by = '';
-                    $body = $matches[3][$k];
-                }
-                else {
-                    $by = '<span class="bbcodes_quote_author">Quote by: <strong>' . $matches[2][$k] . '</strong></span>' . "\n";
-                    $body = $matches[3][$k];
-                }
-                $QUOTEReplace[$v] = '<div class="bbcodes_quote">' . $by . $body . '</div>';
+                $by = empty($matches[2][$k]) ? '' : ('<span class="bbcodes_quote_author">Quote by: <strong>' . $matches[2][$k] . '</strong></span>' . "\n");
+                $body = $matches[3][$k];
+                $quoteReplacements[$v] = '<div class="bbcodes_quote">' . $by . $body . '</div>';
             }
-            $this->str = strtr($this->str, $QUOTEReplace);
+            $this->str = strtr($this->str, $quoteReplacements);
         }
     }
 
@@ -266,43 +235,18 @@ class BBCodes
         }
     }
 
-    private function urlToLink($v)
-    {
-        return '<a href="' . $v[0] . '">' . BBCodes::shortenURL($v[0]) . '</a>';
-    }
-
     private function findURLs($str)
     {
-        return preg_replace_callback(self::PATTERN_LINK, [static::class, 'urlToLink'], $str);
-    }
-
-    private function parseCode()
-    {
-        //*/ Set up replace array for code tags (post BB filtering, so the BB tags don't get changed when IN code)
-        if (preg_match_all(self::PATTERN_CODE, $this->str, $matches)) {
-            $CodeFind = [];
-            foreach ($matches[0] as $k => $v) {
-                $CodeFind[$k] = $v;
-            }
-            $this->str = str_replace($CodeFind, $this->CodeReplace, $this->str);
-            foreach ($this->CodeReplace as $k => $v) {
-                unset($this->CodeReplace[$k]);
-            }
-        }
+        return preg_replace_callback(self::PATTERN_LINK, function ($match) {
+            return '<a href="' . $match[0] . '">' . static::shortenURL($match[0]) . '</a>';
+        }, $str);
     }
 
     private function parseNoParse()
     {
         //*/ Set up replace array for NOPARSE tags (post BB filtering)
         if (preg_match_all(self::PATTERN_NO_PARSE, $this->str, $matches)) {
-            $NOPARSEfind = [];
-            foreach ($matches[0] as $k => $v) {
-                $NOPARSEfind[$k] = $v;
-            }
-            $this->str = str_replace($NOPARSEfind, $this->NoParseReplace, $this->str);
-            foreach ($this->NoParseReplace as $k => $v) {
-                unset($this->NoParseReplace[$k]);
-            }
+            $this->str = str_replace($matches[0], $this->noParseReplacements, $this->str);
         }
     }
 }

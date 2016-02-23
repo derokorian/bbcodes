@@ -1,6 +1,6 @@
 # bbcodes
 
-[![Build Status](https://travis-ci.org/derokorian/bbcodes.svg?branch=master)](https://travis-ci.org/derokorian/bbcodes)
+[![Build Status](https://travis-ci.org/derokorian/bbcodes.svg?branch=master)](https://travis-ci.org/derokorian/bbcodes) [![Code Climate](https://codeclimate.com/github/derokorian/bbcodes/badges/gpa.svg)](https://codeclimate.com/github/derokorian/bbcodes)
 
 Simple class to parse BBCodes
 
@@ -38,8 +38,6 @@ The following tags are available, depending on the options used. Tags are not ca
     [b]bold[/b]
     [i]italic[/i]
     [u]underline[/u]
-    
-    [pre]preformatted text[/pre]
     [strike]struck through text[/strike]
     
     [title]some title text[/title]
@@ -56,6 +54,7 @@ The following tags are available, depending on the options used. Tags are not ca
     [quote]something attributed to someone else[/quote] 
     [quote=author]something attributed to someone else[/quote] 
     
+    [pre]preformatted text[/pre]
     [code]some code that needs formatting maintained[/code]
     [php]some php code[/php]
     
