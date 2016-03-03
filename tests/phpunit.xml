@@ -24,4 +24,12 @@
             <directory>./</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="false">
+            <directory suffix=".php">./../src</directory>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-clover" target="./logs/coverage.xml"/>
+    </logging>
 </phpunit>

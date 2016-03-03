@@ -2,8 +2,13 @@ language: php
 php:
   - 5.6
   - 7.0
+addons:
+    code_climate:
+        repo_token: 68b0b48a29659d620d862c7098e6693ef3286d971db11b508f12941a3cccadc1
 before_script:
   - echo 'date.timezone = "UTC"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  - composer install
+  - composer install --dev
 script:
   - ./vendor/bin/phpunit --configuration ./tests/phpunit.xml
+after_script:
+  - ./vendor/bin/test-reporter --coverage-report=tests/logs/coverage.xml

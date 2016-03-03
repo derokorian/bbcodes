@@ -15,7 +15,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~5.2",
-        "derokorian/gen-synth": "^2.0.1"
+        "derokorian/gen-synth": "^2.0.1",
+        "codeclimate/php-test-reporter": "dev-master"
     },
     "suggest": {
         "derokorian/gen-synth": "To highlight [code=lang] blocks, instead of just displaying them as preformatted text"

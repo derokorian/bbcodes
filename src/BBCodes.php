@@ -65,18 +65,9 @@ class BBCodes
     {
         $this->str = $input;
 
-        if (self::OPT_NOPARSE & $opt) {
-            $this->findNoParse();
-        }
-        if (self::OPT_CODE & $opt) {
-            $this->findCode();
-        }
-        if (self::OPT_LIST & $opt) {
-            $this->parseList();
-        }
-        if (self::OPT_BASE & $opt) {
-            $this->parseBase();
-        }
+        $this->handlePrefinds($opt);
+        $this->handleBasics($opt);
+
         if (self::OPT_TITLE & $opt) {
             $this->parseTitle();
         }
@@ -86,23 +77,39 @@ class BBCodes
         if (self::OPT_IMG & $opt) {
             $this->parseImage();
         }
-        if (self::OPT_QUOTE & $opt) {
-            $this->parseQuote();
-        }
+
         if (self::OPT_URLS & $opt) {
             $this->parseURLBlock();
         }
 
         $this->str = nl2br($this->str);
 
-        if (self::OPT_CODE & $opt) {
-            $this->parseCode();
-        }
-        if (self::OPT_NOPARSE & $opt) {
-            $this->parseNoParse();
-        }
+        $this->handlePostfinds($opt);
 
         return $this->str;
+    }
+
+    private function handleBasics($opt)
+    {
+        if (self::OPT_LIST & $opt) {
+            $this->parseList();
+        }
+        if (self::OPT_BASE & $opt) {
+            $this->parseBase();
+        }
+        if (self::OPT_QUOTE & $opt) {
+            $this->parseQuote();
+        }
+    }
+
+    private function handlePrefinds($opt)
+    {
+        if (self::OPT_NOPARSE & $opt) {
+            $this->findNoParse();
+        }
+        if (self::OPT_CODE & $opt) {
+            $this->findCode();
+        }
     }
 
     private function findNoParse()
@@ -244,9 +251,21 @@ class BBCodes
 
     private function parseNoParse()
     {
-        //*/ Set up replace array for NOPARSE tags (post BB filtering)
         if (preg_match_all(self::PATTERN_NO_PARSE, $this->str, $matches)) {
             $this->str = str_replace($matches[0], $this->noParseReplacements, $this->str);
+        }
+    }
+
+    /**
+     * @param $opt
+     */
+    private function handlePostfinds($opt)
+    {
+        if (self::OPT_CODE & $opt) {
+            $this->parseCode();
+        }
+        if (self::OPT_NOPARSE & $opt) {
+            $this->parseNoParse();
         }
     }
 }
