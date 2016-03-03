@@ -1,6 +1,8 @@
 # bbcodes
 
-[![Build Status](https://travis-ci.org/derokorian/bbcodes.svg?branch=master)](https://travis-ci.org/derokorian/bbcodes) [![Code Climate](https://codeclimate.com/github/derokorian/bbcodes/badges/gpa.svg)](https://codeclimate.com/github/derokorian/bbcodes)
+[![Build Status](https://travis-ci.org/derokorian/bbcodes.svg?branch=master)](https://travis-ci.org/derokorian/bbcodes) 
+[![Code Climate](https://codeclimate.com/github/derokorian/bbcodes/badges/gpa.svg)](https://codeclimate.com/github/derokorian/bbcodes) 
+[![Test Coverage](https://codeclimate.com/github/derokorian/bbcodes/badges/coverage.svg)](https://codeclimate.com/github/derokorian/bbcodes/coverage)
 
 Simple class to parse BBCodes
 
