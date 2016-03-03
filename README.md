@@ -45,6 +45,11 @@ The following tags are available, depending on the options used. Tags are not ca
     [title]some title text[/title]
     [subtitle]a smallter title text[/subtitle]
     
+    [list]
+        [item]list item[/item]
+        [item]list item[/item]
+    [/list]
+    
     [url]http://example.com[/url]
     [url=http://example.com]some text[/url]
     [urls]block of text containing many raw urls[/urls]
@@ -58,7 +63,6 @@ The following tags are available, depending on the options used. Tags are not ca
     
     [pre]preformatted text[/pre]
     [code]some code that needs formatting maintained[/code]
-    [php]some php code[/php]
     
 ### Code Tag upgrade
 By default the code tag only preserves formatting, however if you require the suggested 
