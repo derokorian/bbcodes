@@ -125,7 +125,7 @@ class BBCodes
         if (preg_match_all(self::PATTERN_CODE, $this->str, $matches)) {
             foreach ($matches[3] as $k => $v) {
                 $lang = empty($matches[2][$k]) ? '' : ($matches[2][$k] . ' ');
-                $code = empty($matches[2][$k]) || class_exists(GenSynth::class)
+                $code = empty($matches[2][$k]) || !class_exists(GenSynth::class)
                     ? "<pre>$v</pre>"
                     : GenSynth::highlight_string(
                         $v,

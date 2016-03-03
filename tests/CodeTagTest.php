@@ -8,7 +8,7 @@ class CodeTagsTest extends PHPUnit_Framework_TestCase
     {
         return [
             ['[code]Test[/code]', '<div class="bbcodes_code_wrapper"><span class="bbcodes_code_language">Code:</span>'."\n".'<div class="bbcodes_code"><pre>Test</pre></div></div>'],
-            ['[code=javascript](function(){alert("hello world")})()[/code]', '<div class="bbcodes_code_wrapper"><span class="bbcodes_code_language">javascript Code:</span>'."\n".'<div class="bbcodes_code"><pre>(function(){alert("hello world")})()</pre></div></div>'],
+            ['[code=javascript](function(){alert("hello world")})()[/code]', '<div class="bbcodes_code_wrapper"><span class="bbcodes_code_language">javascript Code:</span>'."\n".'<div class="bbcodes_code"><code><pre class="javascript" style="font-family:monospace;"><span style="color: #009900;">&#40;</span><span style="color: #000066; font-weight: bold;">function</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#123;</span>alert<span style="color: #009900;">&#40;</span><span style="color: #3366CC;">&quot;hello world&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span></pre></code></div></div>'],
         ];
     }
 
