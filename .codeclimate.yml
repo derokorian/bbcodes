@@ -1,6 +1,9 @@
 engines:
   duplication:
     enabled: true
+    config:
+      languages:
+        - php
   fixme:
     enabled: true
   phpmd:
@@ -8,3 +11,5 @@ engines:
     exclude_fingerprints:
       - 119730585779cebad4b7700218201019
       - d7adc9a4b06504a0864e20a96059e5f5
+exclude_paths:
+  - tests/
