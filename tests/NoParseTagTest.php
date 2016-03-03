@@ -21,7 +21,7 @@ class NoParseTagsTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             $output,
-            (new BBCodes())->clean($input, BBCodes::OPT_FULL)
+            (new BBCodes())->fullClean($input)
         );
     }
 

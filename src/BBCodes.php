@@ -175,8 +175,6 @@ class BBCodes
                         return "<h2>$match[3]</h2>";
                     case 'subtitle':
                         return "<h3>$match[3]</h3>";
-                    default:
-                        return $match[3];
                 }
             }, $this->str);
         }

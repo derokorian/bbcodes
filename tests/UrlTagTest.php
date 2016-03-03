@@ -8,6 +8,7 @@ class UrlTagsTest extends PHPUnit_Framework_TestCase
     {
         return [
             ['[url]http://example.com[/url]','<a href="http://example.com" target="_blank">example.com</a>'],
+            ['[url]http://example.com/long_url_that_needs_shortened/more_path/to/a/file.ext?with=A&query=string[/url]','<a href="http://example.com/long_url_that_needs_shortened/more_path/to/a/file.ext?with=A&query=string" target="_blank">example.com/long...</a>'],
             ['[url=http://example.com]some text[/url]','<a href="http://example.com" target="_blank">some text</a>'],
             ['[urls]block of text http://example.com containing many raw http://example.com urls[/urls]','block of text <a href="http://example.com">example.com</a> containing many raw <a href="http://example.com">example.com</a> urls']
         ];
