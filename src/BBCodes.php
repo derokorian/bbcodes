@@ -127,10 +127,16 @@ class BBCodes
                 $lang = empty($matches[2][$k]) ? '' : ($matches[2][$k] . ' ');
                 $code = empty($matches[2][$k]) || class_exists(GenSynth::class)
                     ? "<pre>$v</pre>"
-                    : GenSynth::highlight_string($v, strtolower($matches[2][$k]), true, GenSynth::OPT_HEADER_DIV & GenSynth::OPT_LINE_NUMBERS_FANCY & GenSynth::OPT_CAPS_NO_CHANGE);
+                    : GenSynth::highlight_string(
+                        $v,
+                        strtolower($matches[2][$k]),
+                        true,
+                        GenSynth::OPT_HEADER_DIV & GenSynth::OPT_LINE_NUMBERS_FANCY & GenSynth::OPT_CAPS_NO_CHANGE
+                    );
 
-                $this->codeReplacements[$k] = '<div class="bbcodes_code_wrapper"><span class="bbcodes_code_language">' . $lang . 'Code:</span>' . "\n"
-                                              . '<div class="bbcodes_code">' . $code . '</div></div>';
+                $this->codeReplacements[$k] = '<div class="bbcodes_code_wrapper"><span class="bbcodes_code_language">'
+                                              . $lang . 'Code:</span>' . "\n" . '<div class="bbcodes_code">'
+                                              . $code . '</div></div>';
             }
         }
     }
@@ -210,7 +216,9 @@ class BBCodes
             $imgReplacements = [];
             foreach ($matches[0] as $k => $v) {
                 $url = empty($matches[2][$k]) ? $matches[3][$k] : $matches[2][$k];
-                $imgReplacements[$v] = '<img src="' . $url . '" alt="' . ($url != $matches[3][$k] ? $matches[3][$k] : '') . '" title="' . ($url != $matches[3][$k] ? $matches[3][$k] : '') . '" />';
+                $imgReplacements[$v] = '<img src="' . $url . '" alt="'
+                                       . ($url != $matches[3][$k] ? $matches[3][$k] : '') . '" title="'
+                                       . ($url != $matches[3][$k] ? $matches[3][$k] : '') . '" />';
             }
             $this->str = strtr($this->str, $imgReplacements);
         }
@@ -221,7 +229,10 @@ class BBCodes
         if (preg_match_all(self::PATTERN_QUOTE, $this->str, $matches)) {
             $quoteReplacements = [];
             foreach ($matches[0] as $k => $v) {
-                $by = empty($matches[2][$k]) ? '' : ('<span class="bbcodes_quote_author">Quote by: <strong>' . $matches[2][$k] . '</strong></span>' . "\n");
+                $by = empty($matches[2][$k])
+                        ? ''
+                        : ('<span class="bbcodes_quote_author">Quote by: <strong>'
+                            . $matches[2][$k] . '</strong></span>' . "\n");
                 $body = $matches[3][$k];
                 $quoteReplacements[$v] = '<div class="bbcodes_quote">' . $by . $body . '</div>';
             }
